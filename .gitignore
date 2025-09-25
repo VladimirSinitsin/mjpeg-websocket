@@ -1,0 +1,6 @@
+.vscode
+.idea
+main
+build.sh
+*.tar.gz
+.DS*db/data/

@@ -1,0 +1,158 @@
+:root {
+    color-scheme: dark;
+    font-family: "Courier New", Courier, monospace;
+    background: #0a0a0a;
+    color: #f2f2f2;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: inherit;
+    color: inherit;
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px;
+}
+
+.panel,
+.viewer {
+    border: 1px solid #f2f2f2;
+    background: #111;
+    padding: 16px;
+    flex: 1 1 320px;
+}
+
+.panel {
+    max-width: 420px;
+}
+
+.controls button,
+.create-form button,
+.modal-actions button {
+    background: #0a0a0a;
+    color: inherit;
+    border: 1px solid #f2f2f2;
+    padding: 6px 12px;
+    margin-right: 6px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.controls button:disabled,
+.create-form button:disabled,
+.modal-actions button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.stream-list {
+    list-style: none;
+    margin: 16px 0;
+    padding: 0;
+    max-height: 220px;
+    overflow-y: auto;
+    border: 1px solid #f2f2f2;
+}
+
+.stream-list li {
+    padding: 8px 12px;
+    border-bottom: 1px solid #f2f2f2;
+    cursor: pointer;
+}
+
+.stream-list li:last-child {
+    border-bottom: none;
+}
+
+.stream-list li.active {
+    background: #f2f2f2;
+    color: #0a0a0a;
+}
+
+.create-form {
+    display: grid;
+    gap: 8px;
+}
+
+.create-form label {
+    display: grid;
+    gap: 4px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.create-form input,
+.create-form textarea,
+#edit-form input,
+#edit-form textarea {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid #f2f2f2;
+    background: #0a0a0a;
+    color: inherit;
+    font-family: inherit;
+}
+
+.canvas-wrapper {
+    border: 1px solid #f2f2f2;
+    background: #000;
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#ws-canvas,
+#mjpeg-view {
+    width: 100%;
+    max-width: 640px;
+    border: 1px solid #f2f2f2;
+}
+
+#status {
+    margin-top: 12px;
+    padding: 8px;
+    border: 1px solid #f2f2f2;
+    background: #0a0a0a;
+    max-height: 200px;
+    overflow-y: auto;
+    font-size: 0.85rem;
+}
+
+/* Dialog (modal) */
+#edit-dialog {
+    border: 1px solid #f2f2f2;
+    background: #111;
+    color: inherit;
+    padding: 16px;
+    width: min(520px, 92vw);
+}
+
+#edit-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+#edit-form {
+    display: grid;
+    gap: 8px;
+}
+
+#edit-form label {
+    display: grid;
+    gap: 4px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 8px;
+}

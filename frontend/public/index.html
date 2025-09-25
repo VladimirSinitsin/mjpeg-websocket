@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stream Viewer</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<main>
+    <section class="panel">
+        <h1>Streams</h1>
+        <div class="controls">
+            <button id="refresh">Update</button>
+            <button id="start-ws" disabled>Play</button>
+            <button id="stop" disabled>Stop</button>
+            <button id="edit" disabled>Edit</button>
+        </div>
+        <ul id="stream-list" class="stream-list"></ul>
+    </section>
+    <section class="viewer">
+        <h2 id="current-stream">Select stream</h2>
+        <div class="canvas-wrapper">
+            <img id="mjpeg-view" alt="MJPEG stream" hidden />
+            <canvas id="ws-canvas" hidden></canvas>
+        </div>
+        <pre id="status"></pre>
+    </section>
+</main>
+
+<!-- Edit modal -->
+<dialog id="edit-dialog">
+    <form id="edit-form" method="dialog">
+        <h3 style="margin:0 0 10px;">Edit stream</h3>
+
+        <label>
+            <span>Title</span>
+            <input id="edit-title" name="title" type="text" required />
+        </label>
+
+        <label>
+            <span>Description</span>
+            <textarea id="edit-description" name="description" rows="3"></textarea>
+        </label>
+
+        <label>
+            <span>Frame interval (ms)</span>
+            <input id="edit-frame-interval" name="frame_interval_ms" type="number" min="1" step="1" />
+        </label>
+
+        <div class="modal-actions">
+            <button id="edit-update-btn" type="submit">update</button>
+            <button id="edit-cancel-btn" type="button">cancel</button>
+        </div>
+    </form>
+</dialog>
+
+<script src="app.js" type="module"></script>
+</body>
+</html>

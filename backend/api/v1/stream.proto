@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package stream.v1;
+
+option go_package = "stream-server/stream;v1";
+option java_multiple_files = true;
+option java_package = "stream.v1";
+option java_outer_classname = "StreamProtoV1";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+//import "google/protobuf/any.proto";
+//import "google/protobuf/struct.proto";
+// the validate rules:
+// https://github.com/envoyproxy/protoc-gen-validate
+import "validate/validate.proto";
+
+//
+//
+service StreamService {
+  rpc ListStreams (ListStreamsRequest) returns (ListStreamsResponse) {
+    option (google.api.http) = {
+      get: "/v1/streams"
+    };
+  }
+
+  rpc GetStream (GetStreamRequest) returns (GetStreamResponse) {
+    option (google.api.http) = {
+      get: "/v1/streams/{id}"
+    };
+  }
+
+  rpc UpdateStream (UpdateStreamRequest) returns (UpdateStreamResponse) {
+    option (google.api.http) = {
+      put: "/v1/streams/{id}"
+      body: "*"
+    };
+  }
+}
+
+message Stream {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  int32 frame_interval_ms = 4;
+  int64 frame_count = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+}
+
+message ListStreamsRequest {}
+message ListStreamsResponse {
+  repeated Stream streams = 1;
+}
+
+message GetStreamRequest {
+  string id = 1 [(validate.rules).string.uuid = true];
+}
+message GetStreamResponse {
+  Stream stream = 1;
+}
+
+message UpdateStreamRequest {
+  string id = 1 [(validate.rules).string.uuid = true];
+  string title = 2;
+  string description = 3;
+  int32 frame_interval_ms = 4;
+}
+message UpdateStreamResponse {
+  Stream stream = 1;
+}

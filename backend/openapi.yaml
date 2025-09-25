@@ -1,0 +1,144 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: ""
+    version: 0.0.1
+paths:
+    /health:
+        get:
+            tags:
+                - HealthService
+            operationId: HealthService_Live
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/stream.v1.HealthReply'
+    /ready:
+        get:
+            tags:
+                - HealthService
+            operationId: HealthService_Ready
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/stream.v1.HealthReply'
+    /v1/streams:
+        get:
+            tags:
+                - StreamService
+            operationId: StreamService_ListStreams
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/stream.v1.ListStreamsResponse'
+    /v1/streams/{id}:
+        get:
+            tags:
+                - StreamService
+            operationId: StreamService_GetStream
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/stream.v1.GetStreamResponse'
+        put:
+            tags:
+                - StreamService
+            operationId: StreamService_UpdateStream
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/stream.v1.UpdateStreamRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/stream.v1.UpdateStreamResponse'
+components:
+    schemas:
+        stream.v1.GetStreamResponse:
+            type: object
+            properties:
+                stream:
+                    $ref: '#/components/schemas/stream.v1.Stream'
+        stream.v1.HealthReply:
+            type: object
+            properties:
+                status:
+                    type: string
+        stream.v1.ListStreamsResponse:
+            type: object
+            properties:
+                streams:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/stream.v1.Stream'
+        stream.v1.Stream:
+            type: object
+            properties:
+                id:
+                    type: string
+                title:
+                    type: string
+                description:
+                    type: string
+                frameIntervalMs:
+                    type: integer
+                    format: int32
+                frameCount:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
+        stream.v1.UpdateStreamRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                title:
+                    type: string
+                description:
+                    type: string
+                frameIntervalMs:
+                    type: integer
+                    format: int32
+        stream.v1.UpdateStreamResponse:
+            type: object
+            properties:
+                stream:
+                    $ref: '#/components/schemas/stream.v1.Stream'
+tags:
+    - name: HealthService
+    - name: StreamService

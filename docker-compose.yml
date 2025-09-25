@@ -1,0 +1,103 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: streams
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+    ports:
+      - "15432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - db
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - db
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:80"
+    networks:
+      - vm_net
+    depends_on:
+      db:
+        condition: service_healthy
+      goose:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  app:
+    build:
+      context: ./backend
+      dockerfile: streams.Dockerfile
+    image: app
+    env_file:
+      - backend/config/.env
+    ports:
+      - "8080:8080"
+      - "9090:9090"
+    networks:
+      - db
+      - vm_net
+    depends_on:
+      db:
+        condition: service_healthy
+      goose:
+        condition: service_completed_successfully
+    healthcheck:
+      disable: true
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/ready"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+  goose:
+    image: ghcr.io/kukymbr/goose-docker:3.24.3
+    environment:
+      - GOOSE_DRIVER=postgres
+      - GOOSE_DBSTRING=host=db port=5432 user=postgres password=postgres dbname=streams sslmode=disable
+      - GOOSE_VERBOSE=true
+      # - GOOSE_COMMAND=up-to          # опционально: другая команда
+      # - GOOSE_COMMAND_ARG=20250101120000  # опционально: версия
+    volumes:
+      - ./db/migrations:/migrations
+    networks:
+      - db
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+networks:
+  vm_net:
+  db:
+    driver: bridge
+
+volumes:
+  pgadmin:

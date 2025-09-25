@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package stream.v1;
+
+option go_package = "stream-server/stream;v1";
+option java_multiple_files = true;
+option java_package = "stream.v1";
+option java_outer_classname = "StreamProtoV1";
+
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+
+service HealthService {
+  rpc Live(google.protobuf.Empty) returns (HealthReply) {
+    option (google.api.http) = { get: "/health" };
+  }
+
+  rpc Ready(google.protobuf.Empty) returns (HealthReply) {
+    option (google.api.http) = { get: "/ready" };
+  }
+}
+
+message HealthReply {
+  string status = 1;
+}
