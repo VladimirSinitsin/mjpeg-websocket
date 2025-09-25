@@ -1,5 +1,9 @@
 # MJPEG WebSocket streams
 
+<div align="center">
+  <img src="./demo.gif" width="800" alt="Demo"/>
+</div>
+
 ## TL;DR
 Проект выполнен по ТЗ, с предоставленной БД и базовым фронтом. Тестовый проект.
 
