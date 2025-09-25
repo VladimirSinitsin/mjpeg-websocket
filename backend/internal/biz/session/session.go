@@ -101,6 +101,8 @@ func NewStreamSession(ctx context.Context, conn *websocket.Conn, store *store_po
 		base:  time.Now(),
 		// в задании указано воспроизводить кадры с частотой 25fps
 		// но также можно использовать значение стрима, если использовать строку ниже
+		// p.s. при использовании значения стрима через его изменение можно задавать
+		// скорость воспроизведения чисто с фронта, меняя параметр интервала
 		//interval:  time.Duration(meta.IntervalMS) * time.Millisecond,
 		interval:  40 * time.Millisecond, // 25fps
 		slots:     0,
